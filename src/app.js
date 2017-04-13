@@ -194,7 +194,7 @@ var HelloWorldLayer = cc.Layer.extend({
         }
 
         // Gravity
-        this.ChipmunkSpace.gravity = cp.v(0, -100);
+        this.ChipmunkSpace.gravity = cp.v(0, -200);
     },
 
     update : function( delta ) {
@@ -309,16 +309,22 @@ var HelloWorldLayer = cc.Layer.extend({
         this.ChipmunkSpace.addShape( shape );
         shape.setCollisionType(3);
 
-        body.setMass(9);
+        body.setMass(10);
         body.setMoment(Infinity);
 
         this.bulletSpr = new cc.PhysicsSprite(res.bullet_png);
         this.bulletSpr.setBody( body );
         this.addChild(this.bulletSpr,1);
 
-        var forceY = body.m * Math.abs(this.cannonSpr.getRotation() / 2); //30
-        var forceX = body.m * 20; //10
-        body.setVel(cc.p(forceX,forceY));
+       // var forceY = body.m * Math.abs(this.cannonSpr.getRotation() / 2); //30
+        //var forceX = body.m * 20; //10
+        var curangle = Math.abs(this.cannonSpr.getRotation());
+        cc.log("curangle ....."+curangle);
+        var velocity_X = 350 * Math.cos(cc.degreesToRadians(curangle));
+        var velocity_Y = 350 * Math.sin(cc.degreesToRadians(curangle));
+        cc.log("velocity X ....."+velocity_X);
+        cc.log("velocity X ....."+velocity_Y);
+        body.setVel(cc.p(velocity_X,velocity_Y));
 
     },
 
